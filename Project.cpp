@@ -1,7 +1,8 @@
 #include <iostream>
 #include "MacUILib.h"
 #include "objPos.h"
-
+#include "Player.h"
+#include "GameMechs.h"
 using namespace std;
 
 #define DELAY_CONST 100000
@@ -14,7 +15,10 @@ void RunLogic(void);
 void DrawScreen(void);
 void LoopDelay(void);
 void CleanUp(void);
-
+objPos object1(4,4,'@');
+objPos object2;//used for testing, ignore for now
+Player* playerptr;//these are arbitary pointers, delete these when we get to another iteration
+GameMechs tempptr1;
 char map[8][18] = {
 {' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',},
 {' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',},
@@ -47,19 +51,24 @@ int main(void)
 void Initialize(void)
 {
     MacUILib_init();
+    object2.setObjPos(6,1,'H');
     MacUILib_clearScreen();
-
+    playerptr = new Player(&tempptr1);
     exitFlag = false;
 }
 
 void GetInput(void)
 {
-   
+   if(MacUILib_hasChar()){
+        tempptr1.setInput(MacUILib_getChar());
+    }
 }
 
 void RunLogic(void)
 {
-    
+    objPos currentPlayerPos = playerptr->getPlayerPos();
+    map[currentPlayerPos.pos->x][currentPlayerPos.pos->y] = currentPlayerPos.symbol;
+    playerptr->updatePlayerDir();
 }
 
 void DrawScreen(void)
@@ -74,7 +83,7 @@ void DrawScreen(void)
             MacUILib_printf("#");
             MacUILib_printf("\n");
          }
-    MacUILib_printf("####################");
+    MacUILib_printf("#################### Your current direction is: %d", playerptr->getDir());
 }
 
 void LoopDelay(void)
@@ -86,6 +95,6 @@ void LoopDelay(void)
 void CleanUp(void)
 {
     MacUILib_clearScreen();    
-
+    delete[] playerptr;
     MacUILib_uninit();
 }
