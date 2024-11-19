@@ -10,10 +10,10 @@ Player::Player(GameMechs* thisGMRef)
     // more actions to be included
 }
 
-Player::Player(GameMechs* thisGMRef, int x, int y, char symbol){
+Player::Player(GameMechs* thisGMRef, int y, int x, char symbol){//alternative player constructor, more explicit.
     mainGameMechsRef = thisGMRef;
     myDir = STOP;
-    playerPos.setObjPos(x,y, symbol);
+    playerPos.setObjPos(y,x, symbol);
 }
 
 Player::~Player()
@@ -69,6 +69,42 @@ Player::Dir Player::getDir() const{//this is really messed up, because you need 
 }
 void Player::movePlayer()
 {
+    switch (myDir){
+        case LEFT: //change to the game mech ref, because the borders can vary in this case. This only works for the ppa board!!!
+            if (playerPos.pos->x == 0){
+                playerPos.pos->x = 17;
+            }
+            else{
+                playerPos.pos->x -= 1;
+            }
+            break;
+        case RIGHT:
+            if (playerPos.pos->x == 17){
+                playerPos.pos->x = 0;
+            }
+            else{
+                playerPos.pos->x += 1;
+            }
+            break;
+        case UP:
+            if (playerPos.pos->y == 0){
+                playerPos.pos->y = 7;
+            }
+            else{
+                playerPos.pos->y -= 1;
+            }
+        break;
+        case DOWN:
+            if (playerPos.pos->y == 7){
+                playerPos.pos->y = 0;
+            }
+            else{
+                playerPos.pos->y += 1;
+            }
+        break;
+        default:
+            break;
+    }
     // PPA3 Finite State Machine logic
 }
 

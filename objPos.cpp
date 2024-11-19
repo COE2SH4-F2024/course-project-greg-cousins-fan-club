@@ -43,7 +43,7 @@ void objPos::setObjPos(objPos o)
     symbol = o.symbol;
 }
 
-void objPos::setObjPos(int xPos, int yPos, char sym)
+void objPos::setObjPos(int yPos, int xPos, char sym)
 {
     pos->x = xPos;
     pos->y = yPos;
