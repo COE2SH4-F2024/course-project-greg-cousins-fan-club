@@ -71,16 +71,16 @@ void Player::movePlayer()
 {
     switch (myDir){
         case LEFT: //change to the game mech ref, because the borders can vary in this case. This only works for the ppa board!!!
-            if (playerPos.pos->x == 0){
-                playerPos.pos->x = 17;
+            if (playerPos.pos->x == 1){
+                playerPos.pos->x = mainGameMechsRef->getBoardSizeX()-3;
             }
             else{
                 playerPos.pos->x -= 1;
             }
             break;
         case RIGHT:
-            if (playerPos.pos->x == 17){
-                playerPos.pos->x = 0;
+            if (playerPos.pos->x == mainGameMechsRef->getBoardSizeX()-3){
+                playerPos.pos->x = 1;
             }
             else{
                 playerPos.pos->x += 1;
@@ -88,15 +88,15 @@ void Player::movePlayer()
             break;
         case UP:
             if (playerPos.pos->y == 0){
-                playerPos.pos->y = 7;
+                playerPos.pos->y = mainGameMechsRef->getBoardSizeY()-2;
             }
             else{
                 playerPos.pos->y -= 1;
             }
         break;
         case DOWN:
-            if (playerPos.pos->y == 7){
-                playerPos.pos->y = 0;
+            if (playerPos.pos->y == mainGameMechsRef->getBoardSizeY()-2){
+                playerPos.pos->y = 1;
             }
             else{
                 playerPos.pos->y += 1;

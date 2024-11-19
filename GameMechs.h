@@ -19,6 +19,7 @@ class GameMechs
 
         int boardSizeX;
         int boardSizeY;
+        int** board; // this is the array of the board, newly declared.
 
         objPos food;
 
@@ -38,6 +39,7 @@ class GameMechs
 
         int getBoardSizeX() const;
         int getBoardSizeY() const;
+        int** getBoard() const;
         
         int getScore() const;
         void incrementScore();
