@@ -1,4 +1,6 @@
 #include "GameMechs.h"
+//yo suchir, I think I'm gonna start working on the actual moving parts of the snake. I'll just have it start moving around, but the food logic
+//and the end game logic, etc. are up you to implement. Feel free to go to my files and link up player, with food, etc.
 GameMechs::GameMechs()
 {//I slightly did this part so I could do some of my part, because I need the input part done. Feel free to change anything.
     boardSizeX = 30;

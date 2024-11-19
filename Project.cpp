@@ -54,7 +54,7 @@ void Initialize(void)
     //object2.setObjPos(6,1,'H'); more legacy code
     MacUILib_clearScreen();
     tempptr1 = new GameMechs();
-    playerptr = new Player(tempptr1, 7,12,'@');
+    playerptr = new Player(tempptr1);
     
     exitFlag = false;
 }
@@ -70,10 +70,10 @@ void RunLogic(void)
 {
     //objPos currentPlayerPos = playerptr->getPlayerPos(); legacy code, delete
     
-    tempptr1->getBoard()[playerptr->getPlayerPos().pos->y][playerptr->getPlayerPos().pos->x] = ' '; //before updating, make previous parts empty.
+    tempptr1->getBoard()[playerptr->getPlayerPos()->getHeadElement().pos->y][playerptr->getPlayerPos()->getHeadElement().pos->x] = ' '; //before updating, make previous parts empty.
     playerptr->updatePlayerDir();
     playerptr->movePlayer();
-    tempptr1->getBoard()[playerptr->getPlayerPos().pos->y][playerptr->getPlayerPos().pos->x] = playerptr->getPlayerPos().symbol;//you should probably make a method for this
+    tempptr1->getBoard()[playerptr->getPlayerPos()->getHeadElement().pos->y][playerptr->getPlayerPos()->getHeadElement().pos->x] = playerptr->getPlayerPos()->getHeadElement().symbol;//you should probably make a method for this
     //I should implement two methods that does this in player.
     //wow this is insanely stupid but the logic works here, if you want to set the map equation the logic is here, feel free to test
 }
@@ -86,6 +86,7 @@ void DrawScreen(void)
                 MacUILib_printf("%c", tempptr1->getBoard()[i][j]);  
             }
          }
+    MacUILib_printf("Your current direction is: %d", playerptr->getDir());
 }
 
 void LoopDelay(void)

@@ -5,7 +5,8 @@ Player::Player(GameMechs* thisGMRef)
 {
     mainGameMechsRef = thisGMRef;
     myDir = STOP;
-    playerPos.setObjPos(4,8,'*');
+    playerPosList = new objPosArrayList;//making the new arrayList, and setting the head to the middle.
+    playerPosList->insertHead(objPos(12,7,'*'));
 
     // more actions to be included
 }
@@ -13,17 +14,19 @@ Player::Player(GameMechs* thisGMRef)
 Player::Player(GameMechs* thisGMRef, int y, int x, char symbol){//alternative player constructor, more explicit.
     mainGameMechsRef = thisGMRef;
     myDir = STOP;
-    playerPos.setObjPos(y,x, symbol);
+    playerPosList = new objPosArrayList;
+    playerPosList->insertHead(objPos(y, x, symbol));
 }
 
 Player::~Player()
 {
+    delete[] playerPosList;
     // delete any heap members here
 }
 
-objPos Player::getPlayerPos() const
+objPosArrayList* Player::getPlayerPos() const
 {
-    objPos returnPos = playerPos.getObjPos();//idk why it's return by value here
+    objPosArrayList* returnPos = playerPosList;//idk why it's return by value here
     return returnPos;
 }
 
@@ -69,37 +72,53 @@ Player::Dir Player::getDir() const{//this is really messed up, because you need 
 }
 void Player::movePlayer()
 {
-    switch (myDir){
+    objPos currentHeadPos = playerPosList->getHeadElement();
+    int currentHeadx = currentHeadPos.pos->x;
+    int currentHeadY = currentHeadPos.pos->y;
+    char currentHeadsym = currentHeadPos.symbol;
+    switch (myDir){//this is makeshift, I just want to see if the logic works here. 
         case LEFT: //change to the game mech ref, because the borders can vary in this case. This only works for the ppa board!!!
-            if (playerPos.pos->x == 1){
-                playerPos.pos->x = mainGameMechsRef->getBoardSizeX()-3;
+            if (currentHeadx == 1){
+                playerPosList->insertHead(objPos(mainGameMechsRef->getBoardSizeX()-3,currentHeadY,currentHeadsym));
+                playerPosList->removeTail();
             }
             else{
-                playerPos.pos->x -= 1;
+                currentHeadx -= 1;
+                playerPosList->insertHead(objPos(currentHeadx,currentHeadY,currentHeadsym));
+                playerPosList->removeTail();
             }
             break;
         case RIGHT:
-            if (playerPos.pos->x == mainGameMechsRef->getBoardSizeX()-3){
-                playerPos.pos->x = 1;
+            if (currentHeadx == mainGameMechsRef->getBoardSizeX()-3){
+                playerPosList->insertHead(objPos(1,currentHeadY,currentHeadsym));
+                playerPosList->removeTail();
             }
             else{
-                playerPos.pos->x += 1;
+                currentHeadx += 1;
+                playerPosList->insertHead(objPos(currentHeadx,currentHeadY,currentHeadsym));
+                playerPosList->removeTail();
             }
             break;
         case UP:
-            if (playerPos.pos->y == 0){
-                playerPos.pos->y = mainGameMechsRef->getBoardSizeY()-2;
+            if (currentHeadY == 1){
+                playerPosList->insertHead(objPos(currentHeadx, mainGameMechsRef->getBoardSizeY()-2,currentHeadsym));
+                playerPosList->removeTail();
             }
             else{
-                playerPos.pos->y -= 1;
+                currentHeadY -= 1;
+                playerPosList->insertHead(objPos(currentHeadx, currentHeadY,currentHeadsym));
+                playerPosList->removeTail();
             }
         break;
         case DOWN:
-            if (playerPos.pos->y == mainGameMechsRef->getBoardSizeY()-2){
-                playerPos.pos->y = 1;
+            if (currentHeadY == mainGameMechsRef->getBoardSizeY()-2){
+                playerPosList->insertHead(objPos(currentHeadx, 1, currentHeadsym));
+                playerPosList->removeTail();
             }
             else{
-                playerPos.pos->y += 1;
+                currentHeadY += 1;
+                playerPosList->insertHead(objPos(currentHeadx, currentHeadY,currentHeadsym));
+                playerPosList->removeTail();
             }
         break;
         default:

@@ -14,6 +14,7 @@ class objPosArrayList
 
     public:
         objPosArrayList();
+        //objPosArrayList(int listlen, int arraycap);
         ~objPosArrayList();
 
         int getSize() const;
