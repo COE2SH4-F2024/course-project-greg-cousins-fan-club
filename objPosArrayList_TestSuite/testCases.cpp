@@ -413,6 +413,51 @@ void testRemoveTail_5Element()
 	tearDown(result);
 }
 
+//make test cases for when there are 50 elements and you are adding another a head, ask dr chen in this case
+void boundaryCheckTail(){
+	
+	printf("\n=== boundaryCheckTail() ===\n");
+	bool result = true; // true;
+
+	objPos currentPos;
+	objPos bodyPos(2, 5, 'a');  
+	objPos tailPos(3, 3, 'm');
+
+	// Insert 4 body elements, then 1 unique head element
+	objPosArrayList thisList;
+	for(int i=0; i < 50; i++){
+		thisList.insertTail(bodyPos);
+	}
+
+	int expectedSize = 50;
+	int actualSize = thisList.getSize();
+		
+	// Confirm the list size is now 50.
+	result &= assert_equal(expectedSize, actualSize);
+
+	
+
+	// Next, add the tail position and check whether if it equal.
+	thisList.insertTail(tailPos);
+	//check the new list size now.
+	int expectedsizeup = 51;
+	int actualsizeup = thisList.getSize();
+	result &= assert_equal(expectedsizeup, actualsizeup);
+	//next, check if the last item is the same as the tail pos.
+	bool expectedCheck = true;
+	bool actualCheck;
+	currentPos = thisList.getTailElement();
+	actualCheck = tailPos.isPosEqual(&currentPos);
+	
+	result &= assert_equal(expectedCheck, actualCheck);
+
+	// Next, chech the body elements at index 1, 2, and 3.
+	
+
+	tearDown(result);
+}
+
+//make test case for when there are 50 elements and you are adding a tail
 
 
 
@@ -432,6 +477,7 @@ void testRemoveTail_5Element()
 
 		testRemoveTail_1Element();
 		testRemoveTail_5Element();
+		//boundaryCheckTail;
 		
 		return (successCount == totalAssertions);
 	}
