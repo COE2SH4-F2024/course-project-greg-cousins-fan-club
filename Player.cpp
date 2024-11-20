@@ -7,8 +7,8 @@ Player::Player(GameMechs* thisGMRef)
     myDir = STOP;
     playerPosList = new objPosArrayList;//making the new arrayList, and setting the head to the middle.
     playerPosList->insertHead(objPos(12,7,'*'));
-
-    // more actions to be included
+    playerPosList->insertTail(objPos(12,8,'*'));
+    //right now, the objects here are used for debugging and seeing if the program works. Will rework at the end.
 }
 
 Player::Player(GameMechs* thisGMRef, int y, int x, char symbol){//alternative player constructor, more explicit.
@@ -26,7 +26,7 @@ Player::~Player()
 
 objPosArrayList* Player::getPlayerPos() const
 {
-    objPosArrayList* returnPos = playerPosList;//idk why it's return by value here
+    objPosArrayList* returnPos = playerPosList;//return by pointer getting the position so you can modify the values.
     return returnPos;
 }
 
@@ -64,8 +64,7 @@ void Player::updatePlayerDir()
                 break;
             default:
                 break;
-        }
-        // PPA3 input processing logic          
+        }        
 }
 Player::Dir Player::getDir() const{//this is really messed up, because you need to specify that the data type you are returning is part of the player class.
     return myDir;
@@ -73,11 +72,12 @@ Player::Dir Player::getDir() const{//this is really messed up, because you need 
 void Player::movePlayer()
 {
     objPos currentHeadPos = playerPosList->getHeadElement();
+    //setting the current position of x and y and the symbol as shorter varaible names. Stores the x,y, and symbol of the head.
     int currentHeadx = currentHeadPos.pos->x;
     int currentHeadY = currentHeadPos.pos->y;
     char currentHeadsym = currentHeadPos.symbol;
-    switch (myDir){//this is makeshift, I just want to see if the logic works here. 
-        case LEFT: //change to the game mech ref, because the borders can vary in this case. This only works for the ppa board!!!
+    switch (myDir){ 
+        case LEFT: //this logic shouldn't be touched. It works perfectly fine, and it implements the wraparound logic.
             if (currentHeadx == 1){
                 playerPosList->insertHead(objPos(mainGameMechsRef->getBoardSizeX()-3,currentHeadY,currentHeadsym));
                 playerPosList->removeTail();
@@ -124,7 +124,22 @@ void Player::movePlayer()
         default:
             break;
     }
-    // PPA3 Finite State Machine logic
 }
 
-// More methods to be added
+void Player::clearBoard(){
+    for(int i = 1; i < mainGameMechsRef->getBoardSizeY()-1; i++){
+        for(int j = 1; j< mainGameMechsRef->getBoardSizeX()-2; j++){
+            mainGameMechsRef->getBoard()[i][j] = ' ';//set everything back to space, except the border
+        }
+    }
+}
+void Player::updateBoard(){
+    
+    for(int i = 0; i< playerPosList->getSize(); i++){
+        int x = playerPosList->getElement(i).pos->x;
+        int y = playerPosList->getElement(i).pos->y;
+        char sym = playerPosList->getElement(i).symbol;
+        mainGameMechsRef->getBoard()[y][x] = sym;
+        //place all of the objects onto the board.
+    }
+}

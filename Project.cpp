@@ -15,20 +15,10 @@ void RunLogic(void);
 void DrawScreen(void);
 void LoopDelay(void);
 void CleanUp(void);
-//objPos object1(4,4,'@');
-//objPos object2;//used for testing, ignore for now
-Player* playerptr;//these are arbitary pointers, delete these when we get to another iteration
-GameMechs* tempptr1;
-char map[8][18] = {//temp map.
-{' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',},
-{' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',},
-{' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',},
-{' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',},
-{' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',},
-{' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',},
-{' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',},
-{' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',},
-};
+
+Player* playerptr;//these are the temporary pointers used for testing features
+GameMechs* gamemech;
+
 
 int main(void)
 {
@@ -51,10 +41,10 @@ int main(void)
 void Initialize(void)
 {
     MacUILib_init();
-    //object2.setObjPos(6,1,'H'); more legacy code
     MacUILib_clearScreen();
-    tempptr1 = new GameMechs();
-    playerptr = new Player(tempptr1);
+    //allocation on heap for the two pointers used.
+    gamemech = new GameMechs();
+    playerptr = new Player(gamemech);
     
     exitFlag = false;
 }
@@ -62,31 +52,33 @@ void Initialize(void)
 void GetInput(void)
 {
    if(MacUILib_hasChar()){
-        tempptr1->setInput(MacUILib_getChar());
+        gamemech->setInput(MacUILib_getChar());
     }
 }
 
 void RunLogic(void)
 {
-    //objPos currentPlayerPos = playerptr->getPlayerPos(); legacy code, delete
-    
-    tempptr1->getBoard()[playerptr->getPlayerPos()->getHeadElement().pos->y][playerptr->getPlayerPos()->getHeadElement().pos->x] = ' '; //before updating, make previous parts empty.
+    /*
+    these four methods do the following: They clear the board(not the static portions of the border)
+    updatePlayerDir contains the logic to check if a button has been pushed and to change the direction
+    movePlayer does what is sounds - it holds the logic that moves the snake. In this case, the head tail logic is used.
+    the updateBoard places all of the objects onto the board. Self explanatory
+    */
+    playerptr->clearBoard();
     playerptr->updatePlayerDir();
     playerptr->movePlayer();
-    tempptr1->getBoard()[playerptr->getPlayerPos()->getHeadElement().pos->y][playerptr->getPlayerPos()->getHeadElement().pos->x] = playerptr->getPlayerPos()->getHeadElement().symbol;//you should probably make a method for this
-    //I should implement two methods that does this in player.
-    //wow this is insanely stupid but the logic works here, if you want to set the map equation the logic is here, feel free to test
+    playerptr->updateBoard();
 }
 
 void DrawScreen(void)
 {
     MacUILib_clearScreen(); //this is my logic for implementing the board right now. Swap it out when the gamemech implementation is done.
-        for(int i=0; i < tempptr1->getBoardSizeY(); i++){
-            for(int j = 0; j < tempptr1->getBoardSizeX(); j++){
-                MacUILib_printf("%c", tempptr1->getBoard()[i][j]);  
+        for(int i=0; i < gamemech->getBoardSizeY(); i++){
+            for(int j = 0; j < gamemech->getBoardSizeX(); j++){
+                MacUILib_printf("%c", gamemech->getBoard()[i][j]);  
             }
          }
-    MacUILib_printf("Your current direction is: %d", playerptr->getDir());
+    MacUILib_printf("Your current direction is: %d", playerptr->getDir());//debugging message, feel free to delete.
 }
 
 void LoopDelay(void)
@@ -99,6 +91,6 @@ void CleanUp(void)
 {
     MacUILib_clearScreen();    
     delete[] playerptr;
-    delete[] tempptr1;
+    delete[] gamemech;
     MacUILib_uninit();
 }

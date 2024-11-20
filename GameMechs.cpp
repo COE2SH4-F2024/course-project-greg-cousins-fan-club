@@ -5,13 +5,13 @@ GameMechs::GameMechs()
 {//I slightly did this part so I could do some of my part, because I need the input part done. Feel free to change anything.
     boardSizeX = 30;
     boardSizeY = 15;
-    board = new int*[boardSizeY];//I think we need to DMA here, because we want to have the array sizes be variable. We can't exactly do dynamic arrays convetionally
+    board = new char*[boardSizeY];//I think we need to DMA here, because we want to have the array sizes be variable. We can't exactly do dynamic arrays convetionally
     //without using DMA, and I want to implement the board 
     //border setup below. Feel free to check.
     for(int i = 0; i < boardSizeY; i++){
-        *(board+i) = new int[boardSizeX];
+        board[i] = new char[boardSizeX];
     }
-    for(int i = 0; i < boardSizeY; i++){//setting up the borders of the 
+    for(int i = 0; i < boardSizeY; i++){//setting up the borders of the board.
         board[i][0] = '#';
         board[i][boardSizeX-2] = '#';
         board[i][boardSizeX-1] = '\n';
@@ -24,10 +24,10 @@ GameMechs::GameMechs()
     */
     for(int j = 0; j<boardSizeX-1; j++){
         board[boardSizeY-1][j] = '#';
-    }
+    }//again, more border stuff above.
     for(int i = 1; i<boardSizeY-1; i++){
         for(int j = 1; j<boardSizeX-2; j++){
-            board[i][j] = ' ';
+            board[i][j] = ' ';//this sets everything that's not the border to a space. 
         }
     }
 }
@@ -81,7 +81,7 @@ int GameMechs::getBoardSizeY() const
 {
     return boardSizeY;
 }
-int** GameMechs::getBoard() const{
+char** GameMechs::getBoard() const{
     return board;
 }
 

@@ -1,9 +1,7 @@
 #include "objPosArrayList.h"
 
-// Check lecture contents on general purpose array list construction, 
-// and modify it to support objPos array list construction.
 
-objPosArrayList::objPosArrayList()
+objPosArrayList::objPosArrayList()//constructor, need to ask about array expansion.
 {
     arrayCapacity = ARRAY_MAX_CAP;
     listSize = 0;
@@ -11,7 +9,7 @@ objPosArrayList::objPosArrayList()
 }
 objPosArrayList::~objPosArrayList()
 {
-    delete[] aList;
+    delete[] aList;//deallocate space.
 }
 
 int objPosArrayList::getSize() const
@@ -33,7 +31,7 @@ void objPosArrayList::insertHead(objPos thisPos)
         aList = temp;
     }
     */
-    if(listSize != arrayCapacity){//this starts counting from the back, and moving everything back 1.
+    if(listSize != arrayCapacity){//this starts counting from the back, and moving everything back 1. Snake logic.
         for(int i = listSize; i> 0; i--){
             aList[i] = aList[i-1];
         }
@@ -81,7 +79,7 @@ void objPosArrayList::removeTail()
     if(listSize!= 0){
         aList[listSize-1].~objPos();
         listSize-=1;
-    }
+    }//self explanatory, destroy the object at the end and decrease list size by one.
 }
 
 objPos objPosArrayList::getHeadElement() const
