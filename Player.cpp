@@ -8,6 +8,9 @@ Player::Player(GameMechs* thisGMRef)
     playerPosList = new objPosArrayList;//making the new arrayList, and setting the head to the middle.
     playerPosList->insertHead(objPos(12,7,'*'));
     playerPosList->insertTail(objPos(12,8,'*'));
+    playerPosList->insertTail(objPos(12,9,'*'));
+    playerPosList->insertTail(objPos(12,10,'*'));
+    playerPosList->insertTail(objPos(11,10,'*'));
     //right now, the objects here are used for debugging and seeing if the program works. Will rework at the end.
 }
 
