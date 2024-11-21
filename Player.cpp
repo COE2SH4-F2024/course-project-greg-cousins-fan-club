@@ -23,7 +23,7 @@ Player::Player(GameMechs* thisGMRef, int y, int x, char symbol){//alternative pl
 
 Player::~Player()
 {
-    delete[] playerPosList;
+    delete playerPosList;
     // delete any heap members here
 }
 
@@ -41,9 +41,11 @@ void Player::updatePlayerDir()
             //case ' ':  // exit
                 //mainGameMechsRef->setExitTrue();
                 //break;
+                /*
             case 27:
                 mainGameMechsRef->setExitTrue();//will exit game when Esc is hit
                 break;
+                */
             case 'w':
             case 'W'://wasd movement, same as ppa2
                 if (myDir == LEFT || myDir == RIGHT || myDir == STOP){

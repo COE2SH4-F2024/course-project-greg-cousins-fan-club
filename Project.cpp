@@ -51,11 +51,11 @@ void Initialize(void)
 
 void GetInput(void)
 {
-   if(MacUILib_hasChar()){
+   if(MacUILib_hasChar()){//changed this to the get_input logic, previous logic was faulty
         gamemech->setInput(MacUILib_getChar());
+        if(gamemech->getInput() == 27){
+        gamemech->setExitTrue();
    }
-   if(MacUILib_hasChar() == 27){
-    gamemech->setExitTrue();
    }
 }
 
@@ -93,8 +93,9 @@ void LoopDelay(void)
 
 void CleanUp(void)
 {
-    MacUILib_clearScreen();    
-    delete[] playerptr;
-    delete[] gamemech;
+    MacUILib_clearScreen(); 
+
+    delete gamemech;
+    delete playerptr;
     MacUILib_uninit();
 }
