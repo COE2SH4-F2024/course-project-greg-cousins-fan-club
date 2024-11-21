@@ -25,13 +25,13 @@ int main(void)
 
     Initialize();
 
-    //while(!gamemech->getExitFlagStatus())  //code used to be while(exitFlag == false) before, idk if this is not allowed to be changed, if we have to then I'll revert it back to what is required
-    //{
+    while(!gamemech->getExitFlagStatus())  //code used to be while(exitFlag == false) before, idk if this is not allowed to be changed, if we have to then I'll revert it back to what is required
+    {
         GetInput();
         RunLogic();
         DrawScreen();
         LoopDelay();
-    //}
+    }
 
     CleanUp();
 
