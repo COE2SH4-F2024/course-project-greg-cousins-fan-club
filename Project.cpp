@@ -25,7 +25,7 @@ int main(void)
 
     Initialize();
 
-    while(exitFlag == false)  
+    while(!gamemech->getExitFlagStatus())  //code used to be while(exitFlag == false) before, idk if this is not allowed to be changed, if we have to then I'll revert it back to what is required
     {
         GetInput();
         RunLogic();
@@ -53,7 +53,10 @@ void GetInput(void)
 {
    if(MacUILib_hasChar()){
         gamemech->setInput(MacUILib_getChar());
-    }
+   }
+   if(MacUILib_hasChar() == 27){
+    gamemech->setExitTrue();
+   }
 }
 
 void RunLogic(void)
@@ -79,6 +82,7 @@ void DrawScreen(void)
             }
          }
     MacUILib_printf("Your current direction is: %d", playerptr->getDir());//debugging message, feel free to delete.
+    MacUILib_printf("\nPress Esc to quit the game"); // UI message, feel free to change it if u dont like the wording or wanna remodel the UI
 }
 
 void LoopDelay(void)

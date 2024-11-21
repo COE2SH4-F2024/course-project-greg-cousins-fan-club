@@ -38,8 +38,11 @@ void Player::updatePlayerDir()
     char input = mainGameMechsRef->getInput();
     switch(input)
         {                      
-            case ' ':  // exit
-                mainGameMechsRef->setExitTrue();
+            //case ' ':  // exit
+                //mainGameMechsRef->setExitTrue();
+                //break;
+            case 27:
+                mainGameMechsRef->setExitTrue();//will exit game when Esc is hit
                 break;
             case 'w':
             case 'W'://wasd movement, same as ppa2

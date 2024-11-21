@@ -5,6 +5,8 @@ GameMechs::GameMechs()
 {//I slightly did this part so I could do some of my part, because I need the input part done. Feel free to change anything.
     boardSizeX = 30;
     boardSizeY = 15;
+    exitFlag = false;
+    loseFlag = false;// not gonna use this for a while, but I just initialized it for now
     board = new char*[boardSizeY];//I think we need to DMA here, because we want to have the array sizes be variable. We can't exactly do dynamic arrays convetionally
     //without using DMA, and I want to implement the board 
     //border setup below. Feel free to check.
@@ -48,7 +50,7 @@ GameMechs::~GameMechs()
 
 bool GameMechs::getExitFlagStatus() const
 {
-
+    return exitFlag;
 }
 
 bool GameMechs::getLoseFlagStatus() const
