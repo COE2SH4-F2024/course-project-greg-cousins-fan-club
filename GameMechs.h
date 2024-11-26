@@ -42,6 +42,8 @@ class GameMechs
         char** getBoard() const;
         int getScore() const;
         void incrementScore();
+        void generateFood(objPosArrayList* blockOff);
+        objPos getFoodPos() const;
         
 };
 

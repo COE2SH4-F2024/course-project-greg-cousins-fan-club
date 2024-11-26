@@ -117,7 +117,7 @@ void Player::movePlayer()
                 playerPosList->insertHead(objPos(currentHeadx, currentHeadY,currentHeadsym));
                 playerPosList->removeTail();
             }
-        break;
+            break;
         case DOWN:
             if (currentHeadY == mainGameMechsRef->getBoardSizeY()-2){
                 playerPosList->insertHead(objPos(currentHeadx, 1, currentHeadsym));
@@ -128,7 +128,7 @@ void Player::movePlayer()
                 playerPosList->insertHead(objPos(currentHeadx, currentHeadY,currentHeadsym));
                 playerPosList->removeTail();
             }
-        break;
+            break;
         default:
             break;
     }

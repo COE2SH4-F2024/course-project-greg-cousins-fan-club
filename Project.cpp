@@ -45,7 +45,7 @@ void Initialize(void)
     //allocation on heap for the two pointers used.
     gamemech = new GameMechs();
     playerptr = new Player(gamemech);
-    
+    gamemech->generateFood(playerptr->getPlayerPos());
     exitFlag = false;
 }
 
@@ -71,17 +71,38 @@ void RunLogic(void)
     playerptr->updatePlayerDir();
     playerptr->movePlayer();
     playerptr->updateBoard();
+
+    //first compare current food coords to current head position
+    //if they are ever equal, that means the food was "eaten"
+    //when food gets eaten, new food needs to be generated such that it is not on the snake body
+    if(gamemech->getFoodPos().pos->x == playerptr->getPlayerPos()->getHeadElement().pos->x && gamemech->getFoodPos().pos->y == playerptr->getPlayerPos()->getHeadElement().pos->y){//i understand it now
+        gamemech->generateFood(playerptr->getPlayerPos());
+        gamemech->incrementScore();
+        //increment score - will add later
+    }
+    //else{
+     //   playerptr->getPlayerPos()->removeTail();
+    //} - I'm just tyring some stuff, plz dont delete :)
 }
 
 void DrawScreen(void)
 {
+    int i,j;
     MacUILib_clearScreen(); //this is my logic for implementing the board right now. Swap it out when the gamemech implementation is done.
-        for(int i=0; i < gamemech->getBoardSizeY(); i++){
-            for(int j = 0; j < gamemech->getBoardSizeX(); j++){
-                MacUILib_printf("%c", gamemech->getBoard()[i][j]);  
+    objPos foodPos = gamemech->getFoodPos();
+        for(i=0; i < gamemech->getBoardSizeY(); i++){
+            for(j = 0; j < gamemech->getBoardSizeX(); j++){
+                if(j == foodPos.pos->x && i == foodPos.pos->y ){
+                    MacUILib_printf("%c",foodPos.symbol);
+                }
+                else{
+                    MacUILib_printf("%c", gamemech->getBoard()[i][j]);
+                }
             }
+            
          }
     MacUILib_printf("Your current direction is: %d", playerptr->getDir());//debugging message, feel free to delete.
+    MacUILib_printf("\nCurrent Score: %d",gamemech->getScore());
     MacUILib_printf("\nPress Esc to quit the game"); // UI message, feel free to change it if u dont like the wording or wanna remodel the UI
 }
 

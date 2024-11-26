@@ -1,12 +1,19 @@
 #include "GameMechs.h"
 #include <iostream>
 using namespace std;
+
+#include <stdlib.h>
+#include <time.h>
 //yo suchir, I think I'm gonna start working on the actual moving parts of the snake. I'll just have it start moving around, but the food logic
 //and the end game logic, etc. are up you to implement. Feel free to go to my files and link up player, with food, etc.
 GameMechs::GameMechs()
 {//I slightly did this part so I could do some of my part, because I need the input part done. Feel free to change anything.
+    input = 0;
     boardSizeX = 30;
     boardSizeY = 15;
+    score = 0;
+
+    //food.setObjPos (5,5,'o');   dr.chen said to have this line but we don't really need it
     exitFlag = false;
     loseFlag = false;// not gonna use this for a while, but I just initialized it for now
     board = new char*[boardSizeY];//I think we need to DMA here, because we want to have the array sizes be variable. We can't exactly do dynamic arrays convetionally
@@ -38,7 +45,15 @@ GameMechs::GameMechs()
 
 GameMechs::GameMechs(int boardX, int boardY)
 {
-    
+    input = 0;
+    boardSizeX = 30;
+    boardSizeY = 15;
+    score = 0;
+
+
+    //food.setObjPos (5,5,'o');
+    exitFlag = false;
+    loseFlag = false;// not gonna use this for a while, but I just initialized it for now
 }
 
 // do you need a destructor?
@@ -68,12 +83,12 @@ char GameMechs::getInput() const
 
 int GameMechs::getScore() const
 {
-
+    return score;
 }
 
 void GameMechs::incrementScore()
 {
-    
+    score++;
 }
 
 int GameMechs::getBoardSizeX() const
@@ -110,3 +125,40 @@ void GameMechs::clearInput()
 }
 
 // More methods should be added here
+void GameMechs::generateFood(objPosArrayList* blockOff)
+{
+    int unique = 0; 
+    int x, y;
+    int size = blockOff->getSize();
+    srand(time(NULL)); // Seed the RNG
+    
+    while (unique == 0) {
+        unique = 1; // Assume unique initially
+        
+        // Generate random coordinates avoiding borders
+        x = rand() % (boardSizeX - 3) + 1;
+        y = rand() % (boardSizeY - 3) + 1;
+        
+        // Check against snake's body
+        for (int i = 0; i < size; i++) {
+            objPos snake = blockOff->getElement(i);
+            if (snake.pos->x == x && snake.pos->y == y) {
+                unique = 0; // Not unique
+                break;
+            }
+        }
+        
+    }
+    
+    // Set the food's position
+    food.pos->x = x;
+    food.pos->y = y;
+    food.symbol = 'o';
+
+}
+
+objPos GameMechs::getFoodPos() const
+{
+
+    return food;
+}
