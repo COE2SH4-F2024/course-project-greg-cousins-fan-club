@@ -69,17 +69,21 @@ void RunLogic(void)
     */
     playerptr->clearBoard();
     playerptr->updatePlayerDir();
-    playerptr->movePlayer();
+    if(playerptr->checkFoodConsumption()){//i understand it now
+        playerptr->increasePlayerLength();
+        gamemech->generateFood(playerptr->getPlayerPos());
+        gamemech->incrementScore();
+        //increment score - will add later
+    }
+    else{
+        playerptr->movePlayer();
+    }
     playerptr->updateBoard();
 
     //first compare current food coords to current head position
     //if they are ever equal, that means the food was "eaten"
     //when food gets eaten, new food needs to be generated such that it is not on the snake body
-    if(gamemech->getFoodPos().pos->x == playerptr->getPlayerPos()->getHeadElement().pos->x && gamemech->getFoodPos().pos->y == playerptr->getPlayerPos()->getHeadElement().pos->y){//i understand it now
-        gamemech->generateFood(playerptr->getPlayerPos());
-        gamemech->incrementScore();
-        //increment score - will add later
-    }
+    
     //else{
      //   playerptr->getPlayerPos()->removeTail();
     //} - I'm just tyring some stuff, plz dont delete :)

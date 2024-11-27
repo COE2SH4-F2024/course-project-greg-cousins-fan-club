@@ -167,3 +167,60 @@ void Player::updateBoard(){
         //place all of the objects onto the board.
     }
 }
+bool Player::checkFoodConsumption(){
+    objPos foodPos = mainGameMechsRef->getFoodPos();
+    objPos headElement = playerPosList->getHeadElement();
+    if(foodPos.pos->x == headElement.pos->x && foodPos.pos->y == headElement.pos->y){
+        return true;
+    }
+    return false;
+}
+void Player::increasePlayerLength(){
+        objPos currentHeadPos = playerPosList->getHeadElement();
+    //setting the current position of x and y and the symbol as shorter varaible names. Stores the x,y, and symbol of the head.
+    int currentHeadx = currentHeadPos.pos->x;
+    int currentHeadY = currentHeadPos.pos->y;
+    char currentHeadsym = currentHeadPos.symbol;
+    switch (myDir){ 
+        case LEFT: //this logic shouldn't be touched. It works perfectly fine, and it implements the wraparound logic.
+            if (currentHeadx == 1){
+                playerPosList->insertHead(objPos(mainGameMechsRef->getBoardSizeX()-3,currentHeadY,currentHeadsym));
+            }
+            else{
+                currentHeadx -= 1;
+                playerPosList->insertHead(objPos(currentHeadx,currentHeadY,currentHeadsym));
+            }
+            break;
+        case RIGHT:
+            if (currentHeadx == mainGameMechsRef->getBoardSizeX()-3){
+                playerPosList->insertHead(objPos(1,currentHeadY,currentHeadsym));
+            }
+            else{
+                currentHeadx += 1;
+                playerPosList->insertHead(objPos(currentHeadx,currentHeadY,currentHeadsym));
+            }
+            break;
+        case UP:
+            if (currentHeadY == 1){
+                playerPosList->insertHead(objPos(currentHeadx, mainGameMechsRef->getBoardSizeY()-2,currentHeadsym));
+            }
+            else{
+                currentHeadY -= 1;
+                playerPosList->insertHead(objPos(currentHeadx, currentHeadY,currentHeadsym));
+            }
+            break;
+        case DOWN:
+            if (currentHeadY == mainGameMechsRef->getBoardSizeY()-2){
+                playerPosList->insertHead(objPos(currentHeadx, 1, currentHeadsym));
+                
+            }
+            else{
+                currentHeadY += 1;
+                playerPosList->insertHead(objPos(currentHeadx, currentHeadY,currentHeadsym));
+                
+            }
+            break;
+        default:
+            break;
+    }
+}
