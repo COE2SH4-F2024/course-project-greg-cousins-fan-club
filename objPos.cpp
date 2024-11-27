@@ -19,15 +19,15 @@ objPos::~objPos(){
     delete pos;
 }
 objPos::objPos(const objPos &o){
-
     this->symbol = o.symbol;
     this->pos = new Pos;
     this->pos->x = o.pos->x;
     this->pos->y = o.pos->y;
 }
-objPos& objPos::operator=(const objPos &o){//need to ask about memory leakage and the copy constructor to dr chen
-    //ask about self-assignment issues
+objPos& objPos::operator=(const objPos &o){
     this->symbol = o.symbol;
+    delete this->pos;
+    this->pos = new Pos;
     this->pos->x = o.pos->x;
     this->pos->y = o.pos->y;
     return *this;
