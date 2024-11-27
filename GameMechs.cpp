@@ -72,7 +72,7 @@ bool GameMechs::getExitFlagStatus() const
 
 bool GameMechs::getLoseFlagStatus() const
 {
-
+    return loseFlag;
 }
     
 
@@ -111,7 +111,7 @@ void GameMechs::setExitTrue()
 
 void GameMechs::setLoseFlag()
 {
-    
+    loseFlag = true;
 }
 
 void GameMechs::setInput(char this_input)
@@ -121,7 +121,7 @@ void GameMechs::setInput(char this_input)
 
 void GameMechs::clearInput()
 {
-
+    input = 0;
 }
 
 // More methods should be added here
