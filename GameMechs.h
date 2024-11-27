@@ -27,7 +27,9 @@ class GameMechs
         GameMechs();
         GameMechs(int boardX, int boardY);
         ~GameMechs(); // is this one needed at all? Why or why not?
-        
+        //you should probably add the other two required rule of 4 functions here
+        GameMechs(const GameMechs &g);
+        GameMechs& operator=(const GameMechs &g);
         bool getExitFlagStatus() const; 
         void setExitTrue();
         bool getLoseFlagStatus() const;

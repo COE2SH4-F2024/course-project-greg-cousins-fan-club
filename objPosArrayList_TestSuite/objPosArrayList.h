@@ -16,7 +16,7 @@ class objPosArrayList
         objPosArrayList();
         objPosArrayList(int listlen, int arraycap);
         ~objPosArrayList();
-
+        //to-do: Add the rest of the rule of 4 min function shere
         int getSize() const;
         void insertHead(objPos thisPos);
         void insertTail(objPos thisPos);
