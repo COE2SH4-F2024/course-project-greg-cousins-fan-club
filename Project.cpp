@@ -69,10 +69,17 @@ void RunLogic(void)
     */
     playerptr->clearBoard();
     playerptr->updatePlayerDir();
-    if(playerptr->checkFoodConsumption()){//i understand it now
+    
+    if(playerptr->checkSpecialFoodConsumption()){
         playerptr->increasePlayerLength();
+        gamemech->specialIncrement();
         gamemech->generateFood(playerptr->getPlayerPos());
+    }
+    else if(playerptr->checkFoodConsumption()){//i understand it now
+        playerptr->increasePlayerLength();
         gamemech->incrementScore();
+        gamemech->generateFood(playerptr->getPlayerPos());
+        
     }
     else{
         playerptr->movePlayer();

@@ -178,7 +178,7 @@ void Player::updateBoard(){
     for(int i = 0; i < 5; i++){
         int x = foodPos[i].pos->x;
         int y = foodPos[i].pos->y;
-        mainGameMechsRef->getBoard()[y][x] = 'o';
+        mainGameMechsRef->getBoard()[y][x] = foodPos[i].symbol;
     }
     for(int i = 0; i< playerPosList->getSize(); i++){
         int x = playerPosList->getElement(i).pos->x;
@@ -194,6 +194,16 @@ bool Player::checkFoodConsumption(){
     objPos headElement = playerPosList->getHeadElement();
     for(int i = 0; i < 5; i++){
         if(foodPos[i].pos->x == headElement.pos->x && foodPos[i].pos->y == headElement.pos->y){
+            return true;
+        }
+    }
+    return false;
+}
+bool Player::checkSpecialFoodConsumption(){
+    objPos* foodPos = mainGameMechsRef->getFoodPos();
+    objPos headElement = playerPosList->getHeadElement();
+    for(int i = 0; i < 5; i++){
+        if(foodPos[i].pos->x == headElement.pos->x && foodPos[i].pos->y == headElement.pos->y && foodPos[i].symbol == '^'){
             return true;
         }
     }

@@ -184,11 +184,19 @@ void GameMechs::generateFood(objPosArrayList* blockOff)
             }
                 food[i].pos->x = x;
                 food[i].pos->y = y;
-                food[i].symbol = 'o';        
+                if(i == 4){
+                    food[i].symbol = '^';
+                }
+                else{
+                    food[i].symbol = 'o';
+                }        
         }
 }
 
 objPos* GameMechs::getFoodPos() const
 {
     return food;
+}
+void GameMechs::specialIncrement(){
+    score += 5;
 }

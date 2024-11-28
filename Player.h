@@ -26,6 +26,7 @@ class Player
         void clearBoard();
         Dir getDir() const;//get the direction as an enum(not really required, mostly used for debugging)
         bool checkFoodConsumption();
+        bool checkSpecialFoodConsumption();
         void increasePlayerLength();
 
     private:
