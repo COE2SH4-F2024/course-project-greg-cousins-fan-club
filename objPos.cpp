@@ -26,7 +26,7 @@ objPos::objPos(const objPos &o){
 }
 objPos& objPos::operator=(const objPos &o){
     if(this != &o){
-        this->symbol = o.symbol;
+        this->symbol = o.symbol;//check
         //delete this->pos;
         //makethis->pos = new Pos; //double deletion in arraylist.cpp casues strange issues, ask chen???
         this->pos->x = o.pos->x;
