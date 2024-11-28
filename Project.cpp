@@ -111,6 +111,7 @@ void DrawScreen(void)
         //MacUILib_printf("Your current direction is: %d", playerptr->getDir());//debugging message, feel free to delete.
         MacUILib_printf("\nCurrent Score: %d",gamemech->getScore());
         MacUILib_printf("\nPress Esc to quit the game"); // UI message, feel free to change it if u dont like the wording or wanna remodel the UI
+        //i love our code!
     }
     
     
