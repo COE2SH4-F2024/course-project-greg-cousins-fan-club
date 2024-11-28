@@ -25,11 +25,13 @@ objPos::objPos(const objPos &o){
     this->pos->y = o.pos->y;
 }
 objPos& objPos::operator=(const objPos &o){
-    this->symbol = o.symbol;
-    //delete this->pos;
-    //makethis->pos = new Pos; //double deletion in arraylist.cpp casues strange issues, ask chen???
-    this->pos->x = o.pos->x;
-    this->pos->y = o.pos->y;
+    if(this != &o){
+        this->symbol = o.symbol;
+        //delete this->pos;
+        //makethis->pos = new Pos; //double deletion in arraylist.cpp casues strange issues, ask chen???
+        this->pos->x = o.pos->x;
+        this->pos->y = o.pos->y;
+    }
     return *this;
 }
 // Respect the rule of six / minimum four

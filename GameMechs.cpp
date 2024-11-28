@@ -82,15 +82,17 @@ GameMechs::GameMechs(const GameMechs &g){
     }
 }
 GameMechs& GameMechs::operator=(const GameMechs &g){
-    this->input = g.input;
-    this->boardSizeX = g.boardSizeX;
-    this->boardSizeY = g.boardSizeY;
-    this->score = g.score;
-    this->exitFlag = g.exitFlag;
-    this->loseFlag = g.loseFlag;
-    for(int i = 1; i<this->boardSizeY; i++){
-        for(int j = 1; j<this->boardSizeX; j++){
-            this->board[i][j] = g.board[i][j];//deep copy
+    if (this != &g){
+        this->input = g.input;
+        this->boardSizeX = g.boardSizeX;
+        this->boardSizeY = g.boardSizeY;
+        this->score = g.score;
+        this->exitFlag = g.exitFlag;
+        this->loseFlag = g.loseFlag;
+        for(int i = 1; i<this->boardSizeY; i++){
+            for(int j = 1; j<this->boardSizeX; j++){
+                this->board[i][j] = g.board[i][j];//deep copy
+            }
         }
     }
     return *this;

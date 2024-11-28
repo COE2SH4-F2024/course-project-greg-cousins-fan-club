@@ -38,9 +38,11 @@ Player::Player(const Player &p){
     this->playerPosList = p.playerPosList;
 }
 Player& Player::operator=(const Player &p){
-    this->mainGameMechsRef = p.mainGameMechsRef;
-    this->myDir = p.myDir;
-    this->playerPosList = p.playerPosList;
+    if(this != &p){
+        this->mainGameMechsRef = p.mainGameMechsRef;
+        this->myDir = p.myDir;
+        this->playerPosList = p.playerPosList;
+    }
     return *this;
 }
 objPosArrayList* Player::getPlayerPos() const

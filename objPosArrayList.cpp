@@ -20,10 +20,12 @@ objPosArrayList::objPosArrayList(const objPosArrayList &o){
     }
 }
 objPosArrayList& objPosArrayList::operator=(const objPosArrayList &o){
-    this->arrayCapacity = ARRAY_MAX_CAP;
-    this->listSize = o.listSize;
-    for(int i = 0; i < listSize; i++){
-        this->aList[i] = o.aList[i];
+    if(this != &o){
+        this->arrayCapacity = ARRAY_MAX_CAP;
+        this->listSize = o.listSize;
+        for(int i = 0; i < listSize; i++){
+            this->aList[i] = o.aList[i];
+        }
     }
     return *this;
 }
