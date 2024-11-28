@@ -81,7 +81,7 @@ void objPosArrayList::insertTail(objPos thisPos)
 void objPosArrayList::removeHead()
 {
     if(listSize!=0){
-        aList[0].~objPos();
+        //aList[0].~objPos();
         listSize -= 1;
         for(int i = 0; i<listSize-1; i++){
             aList[i] = aList[i+1];
@@ -92,7 +92,7 @@ void objPosArrayList::removeHead()
 void objPosArrayList::removeTail()
 {
     if(listSize!= 0){
-        aList[listSize-1].~objPos();
+        //aList[listSize-1].~objPos();
         listSize-=1;
     }//self explanatory, destroy the object at the end and decrease list size by one.
 }
