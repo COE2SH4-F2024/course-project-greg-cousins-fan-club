@@ -3,6 +3,7 @@
 #include "objPos.h"
 #include "Player.h"
 #include "GameMechs.h"
+#include <windows.h>    
 using namespace std;
 
 #define DELAY_CONST 100000
@@ -32,7 +33,6 @@ int main(void)
         DrawScreen();
         LoopDelay();
     }
-
     CleanUp();
 
 }
@@ -73,7 +73,6 @@ void RunLogic(void)
         playerptr->increasePlayerLength();
         gamemech->generateFood(playerptr->getPlayerPos());
         gamemech->incrementScore();
-        //increment score - will add later
     }
     else{
         playerptr->movePlayer();
@@ -84,16 +83,20 @@ void RunLogic(void)
     //if they are ever equal, that means the food was "eaten"
     //when food gets eaten, new food needs to be generated such that it is not on the snake body
     
-    //else{
-     //   playerptr->getPlayerPos()->removeTail();
-    //} - I'm just tyring some stuff, plz dont delete :)
 }
 
 void DrawScreen(void)
 {
     int i,j;
     MacUILib_clearScreen(); //this is my logic for implementing the board right now. Swap it out when the gamemech implementation is done.
-    objPos foodPos = gamemech->getFoodPos();
+    if(gamemech->getLoseFlagStatus() == true){
+        MacUILib_printf("\nGAME OVER!!! You hit yourself!");
+        MacUILib_printf("\nYour final score is: %d, good job!",gamemech->getScore());
+        Sleep(3000); // Delay for 3 seconds
+        gamemech->setExitTrue();
+    }
+    else{
+        objPos foodPos = gamemech->getFoodPos();
         for(i=0; i < gamemech->getBoardSizeY(); i++){
             for(j = 0; j < gamemech->getBoardSizeX(); j++){
                 if(j == foodPos.pos->x && i == foodPos.pos->y ){
@@ -104,10 +107,13 @@ void DrawScreen(void)
                 }
             }
             
-         }
-    MacUILib_printf("Your current direction is: %d", playerptr->getDir());//debugging message, feel free to delete.
-    MacUILib_printf("\nCurrent Score: %d",gamemech->getScore());
-    MacUILib_printf("\nPress Esc to quit the game"); // UI message, feel free to change it if u dont like the wording or wanna remodel the UI
+        }
+        //MacUILib_printf("Your current direction is: %d", playerptr->getDir());//debugging message, feel free to delete.
+        MacUILib_printf("\nCurrent Score: %d",gamemech->getScore());
+        MacUILib_printf("\nPress Esc to quit the game"); // UI message, feel free to change it if u dont like the wording or wanna remodel the UI
+    }
+    
+    
 }
 
 void LoopDelay(void)

@@ -10,12 +10,12 @@ Player::Player(GameMechs* thisGMRef)
     playerPosList->insertTail(objPos(12,8,'*'));
     playerPosList->insertTail(objPos(12,9,'*'));
     playerPosList->insertTail(objPos(12,10,'*'));
+    playerPosList->insertTail(objPos(11,10,'*'));/*
     playerPosList->insertTail(objPos(11,10,'*'));
     playerPosList->insertTail(objPos(11,10,'*'));
     playerPosList->insertTail(objPos(11,10,'*'));
     playerPosList->insertTail(objPos(11,10,'*'));
-    playerPosList->insertTail(objPos(11,10,'*'));
-    playerPosList->insertTail(objPos(11,10,'*'));
+    playerPosList->insertTail(objPos(11,10,'*'));*/
     //right now, the objects here are used for debugging and seeing if the program works. Will rework at the end.
 }
 
@@ -148,6 +148,20 @@ void Player::movePlayer()
         default:
             break;
     }
+
+
+    objPos head = playerPosList->getHeadElement().getObjPos();
+    // Check for self-collision with the body
+    for (int i = 1; i < playerPosList->getSize(); i++) { // Loop through the body
+        objPos bodyPart = playerPosList->getElement(i);
+        if (head.pos->x == bodyPart.pos->x && head.pos->y == bodyPart.pos->y) {
+            // Collision detected, set flags
+            mainGameMechsRef->setLoseFlag();
+            //mainGameMechsRef->setExitTrue();
+            return; // Exit the function to avoid further movement
+        }
+    }
+
 }
 
 void Player::clearBoard(){
@@ -176,7 +190,7 @@ bool Player::checkFoodConsumption(){
     return false;
 }
 void Player::increasePlayerLength(){
-        objPos currentHeadPos = playerPosList->getHeadElement();
+    objPos currentHeadPos = playerPosList->getHeadElement();
     //setting the current position of x and y and the symbol as shorter varaible names. Stores the x,y, and symbol of the head.
     int currentHeadx = currentHeadPos.pos->x;
     int currentHeadY = currentHeadPos.pos->y;
@@ -224,3 +238,4 @@ void Player::increasePlayerLength(){
             break;
     }
 }
+
