@@ -174,7 +174,12 @@ void Player::clearBoard(){
     }
 }
 void Player::updateBoard(){
-    
+    objPos* foodPos = mainGameMechsRef->getFoodPos();
+    for(int i = 0; i < 5; i++){
+        int x = foodPos[i].pos->x;
+        int y = foodPos[i].pos->y;
+        mainGameMechsRef->getBoard()[y][x] = 'o';
+    }
     for(int i = 0; i< playerPosList->getSize(); i++){
         int x = playerPosList->getElement(i).pos->x;
         int y = playerPosList->getElement(i).pos->y;
@@ -182,12 +187,15 @@ void Player::updateBoard(){
         mainGameMechsRef->getBoard()[y][x] = sym;
         //place all of the objects onto the board.
     }
+    
 }
 bool Player::checkFoodConsumption(){
-    objPos foodPos = mainGameMechsRef->getFoodPos();
+    objPos* foodPos = mainGameMechsRef->getFoodPos();
     objPos headElement = playerPosList->getHeadElement();
-    if(foodPos.pos->x == headElement.pos->x && foodPos.pos->y == headElement.pos->y){
-        return true;
+    for(int i = 0; i < 5; i++){
+        if(foodPos[i].pos->x == headElement.pos->x && foodPos[i].pos->y == headElement.pos->y){
+            return true;
+        }
     }
     return false;
 }

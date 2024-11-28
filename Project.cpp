@@ -96,18 +96,11 @@ void DrawScreen(void)
         gamemech->setExitTrue();
     }
     else{
-        objPos foodPos = gamemech->getFoodPos();
         for(i=0; i < gamemech->getBoardSizeY(); i++){
             for(j = 0; j < gamemech->getBoardSizeX(); j++){
-                if(j == foodPos.pos->x && i == foodPos.pos->y ){
-                    MacUILib_printf("%c",foodPos.symbol);
-                }
-                else{
                     MacUILib_printf("%c", gamemech->getBoard()[i][j]);
                 }
             }
-            
-        }
         //MacUILib_printf("Your current direction is: %d", playerptr->getDir());//debugging message, feel free to delete.
         MacUILib_printf("\nCurrent Score: %d",gamemech->getScore());
         MacUILib_printf("\nPress Esc to quit the game"); // UI message, feel free to change it if u dont like the wording or wanna remodel the UI

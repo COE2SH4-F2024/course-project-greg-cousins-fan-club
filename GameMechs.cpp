@@ -12,7 +12,7 @@ GameMechs::GameMechs()
     boardSizeX = 30;
     boardSizeY = 15;
     score = 0;
-
+    food = new objPos[5];
     //food.setObjPos (5,5,'o');   dr.chen said to have this line but we don't really need it
     exitFlag = false;
     loseFlag = false;// not gonna use this for a while, but I just initialized it for now
@@ -63,6 +63,7 @@ GameMechs::~GameMechs()
         delete[] board[i];
     }
     delete[] board;
+    delete[] food;
 }
 GameMechs::GameMechs(const GameMechs &g){
     this->input = g.input;
@@ -164,34 +165,30 @@ void GameMechs::generateFood(objPosArrayList* blockOff)
     int x, y;
     int size = blockOff->getSize();
     srand(time(NULL)); // Seed the RNG
-    
-    while (unique == 0) {
-        unique = 1; // Assume unique initially
-        
         // Generate random coordinates avoiding borders
-        x = rand() % (boardSizeX - 3) + 1;
-        y = rand() % (boardSizeY - 3) + 1;
-        
-        // Check against snake's body
-        for (int i = 0; i < size; i++) {
-            objPos snake = blockOff->getElement(i);
-            if (snake.pos->x == x && snake.pos->y == y) {
-                unique = 0; // Not unique
-                break;
+        for(int i = 0; i < 5; i++){//for each element in food
+            unique = 0;
+            while (unique == 0) {
+                unique = 1; // Assume unique initially
+                x = rand() % (boardSizeX - 3) + 1;
+                y = rand() % (boardSizeY - 3) + 1;
+                
+                // Check against snake's body
+                for (int j = 0; j < size; j++) {
+                    objPos snake = blockOff->getElement(j);
+                    if (snake.pos->x == x && snake.pos->y == y) {
+                        unique = 0; // Not unique
+                        break;
+                    }
+                }
             }
+                food[i].pos->x = x;
+                food[i].pos->y = y;
+                food[i].symbol = 'o';        
         }
-        
-    }
-    
-    // Set the food's position
-    food.pos->x = x;
-    food.pos->y = y;
-    food.symbol = 'o';
-
 }
 
-objPos GameMechs::getFoodPos() const
+objPos* GameMechs::getFoodPos() const
 {
-
     return food;
 }

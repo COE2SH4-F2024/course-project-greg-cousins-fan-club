@@ -21,7 +21,7 @@ class GameMechs
         int boardSizeY;
         char** board; // this is the array of the board, newly declared.
         //hshsPlayer* gamer;
-        objPos food;
+        objPos* food;
 
     public:
         GameMechs();
@@ -45,7 +45,7 @@ class GameMechs
         int getScore() const;
         void incrementScore();
         void generateFood(objPosArrayList* blockOff);
-        objPos getFoodPos() const;
+        objPos* getFoodPos() const;
         
 };
 
