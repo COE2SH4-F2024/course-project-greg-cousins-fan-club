@@ -20,11 +20,12 @@ class objPos
         objPos(const objPos &o);
         objPos& operator=(const objPos &o);
         // Respect the rule of six / minimum four
-        // [TODO] Implement the missing special member functions to meet the minimum four rule
-        
+
+        //setters of object position
         void setObjPos(objPos o);        
         void setObjPos(int xPos, int yPos, char sym);  
 
+        //getters of object position
         objPos getObjPos() const;
         char getSymbol() const;
         char getSymbolIfPosEqual(const objPos* refPos) const;

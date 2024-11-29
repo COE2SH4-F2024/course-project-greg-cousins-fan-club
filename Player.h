@@ -14,20 +14,19 @@ class Player
 
         Player(GameMechs* thisGMRef);
         Player(GameMechs* thisGMRef, int x, int y, char symbol);//alternative constructor.
-        ~Player();
+        ~Player();//destructor
         Player(const Player &p);
         Player& operator=(const Player &p);
-        //need to implement these as well, the copy and copy assignment ops.
 
         objPosArrayList* getPlayerPos() const; // pointer to snake object.      
-        void updatePlayerDir();//these 4 functions are explained more in the main project file.
+        void updatePlayerDir();
         void movePlayer();
         void updateBoard();
-        void clearBoard();
-        Dir getDir() const;//get the direction as an enum(not really required, mostly used for debugging)
+        void clearBoard();//above functions explained in project.cpp
+        Dir getDir() const;//get the direction as an enum
         bool checkFoodConsumption();
         bool checkSpecialFoodConsumption();
-        void increasePlayerLength();
+        void increasePlayerLength();//above 3 are used for snake growth
 
     private:
         objPosArrayList* playerPosList;       

@@ -1,6 +1,7 @@
 #include "Player.h"
 
-
+// Constructor initializes the Player object with a reference to the game mechanics,
+// creates a new objPosArrayList for storing the snake's position
 Player::Player(GameMechs* thisGMRef)
 {
     mainGameMechsRef = thisGMRef;
@@ -10,16 +11,10 @@ Player::Player(GameMechs* thisGMRef)
     playerPosList->insertTail(objPos(12,8,'*'));
     playerPosList->insertTail(objPos(12,9,'*'));
     playerPosList->insertTail(objPos(12,10,'*'));
-    playerPosList->insertTail(objPos(11,10,'*'));/*
-    playerPosList->insertTail(objPos(11,10,'*'));
-    playerPosList->insertTail(objPos(11,10,'*'));
-    playerPosList->insertTail(objPos(11,10,'*'));
-    playerPosList->insertTail(objPos(11,10,'*'));
-    playerPosList->insertTail(objPos(11,10,'*'));*/
-    //right now, the objects here are used for debugging and seeing if the program works. Will rework at the end.
+    playerPosList->insertTail(objPos(11,10,'*'));//creates snake that is 5 units long
 }
 
-Player::Player(GameMechs* thisGMRef, int y, int x, char symbol){//alternative player constructor, more explicit.
+Player::Player(GameMechs* thisGMRef, int y, int x, char symbol){//alternative player constructor, allows explicitly setting the snake's initial position
     mainGameMechsRef = thisGMRef;
     myDir = STOP;
     playerPosList = new objPosArrayList;
@@ -31,11 +26,15 @@ Player::~Player()
     delete playerPosList;
     // delete any heap members here
 }
+
+// Copy constructor 
 Player::Player(const Player &p){
     this->mainGameMechsRef = p.mainGameMechsRef;
     this->myDir = p.myDir;
-    this->playerPosList = new objPosArrayList;
+    this->playerPosList = new objPosArrayList;// Allocate new memory for position list.
     this->playerPosList = p.playerPosList;
+
+// Assignment operator 
 }
 Player& Player::operator=(const Player &p){
     if(this != &p){
@@ -45,6 +44,8 @@ Player& Player::operator=(const Player &p){
     }
     return *this;
 }
+
+
 objPosArrayList* Player::getPlayerPos() const
 {
     objPosArrayList* returnPos = playerPosList;//return by pointer getting the position so you can modify the values.
@@ -52,18 +53,10 @@ objPosArrayList* Player::getPlayerPos() const
 }
 
 void Player::updatePlayerDir()
-{ //basically copied pasted the ppa2 code here
+{
     char input = mainGameMechsRef->getInput();
     switch(input)
         {                      
-            //case ' ':  // exit
-                //mainGameMechsRef->setExitTrue();
-                //break;
-                /*
-            case 27:
-                mainGameMechsRef->setExitTrue();//will exit game when Esc is hit
-                break;
-                */
             case 'w':
             case 'W'://wasd movement, same as ppa2
                 if (myDir == LEFT || myDir == RIGHT || myDir == STOP){
@@ -92,18 +85,23 @@ void Player::updatePlayerDir()
                 break;
         }        
 }
-Player::Dir Player::getDir() const{//this is really messed up, because you need to specify that the data type you are returning is part of the player class.
+
+// Returns the current direction of the player
+Player::Dir Player::getDir() const{
     return myDir;
 }
+
+
+
 void Player::movePlayer()
 {
-    objPos currentHeadPos = playerPosList->getHeadElement();
+    objPos currentHeadPos = playerPosList->getHeadElement();// Get the head position.
     //setting the current position of x and y and the symbol as shorter varaible names. Stores the x,y, and symbol of the head.
-    int currentHeadx = currentHeadPos.pos->x;
-    int currentHeadY = currentHeadPos.pos->y;
-    char currentHeadsym = currentHeadPos.symbol;
+    int currentHeadx = currentHeadPos.pos->x;// Extract x-coordinate
+    int currentHeadY = currentHeadPos.pos->y;// Extract y-coordinate.
+    char currentHeadsym = currentHeadPos.symbol;// Extract symbol.
     switch (myDir){ 
-        case LEFT: //this logic shouldn't be touched. It works perfectly fine, and it implements the wraparound logic.
+        case LEFT:
             if (currentHeadx == 1){
                 playerPosList->insertHead(objPos(mainGameMechsRef->getBoardSizeX()-3,currentHeadY,currentHeadsym));
                 playerPosList->removeTail();
@@ -149,7 +147,8 @@ void Player::movePlayer()
             break;
         default:
             break;
-    }
+    }//above is the wraparound logic, if the snake head reaches one of the extremities while going in a specific direction, its head will move to the other extremity
+    //everytime snake moves, the head is added to one space ahead and the tail is removed
 
 
     objPos head = playerPosList->getHeadElement().getObjPos();
@@ -173,6 +172,8 @@ void Player::clearBoard(){
         }
     }
 }
+
+// Updates the board with the player's and food positions.
 void Player::updateBoard(){
     objPos* foodPos = mainGameMechsRef->getFoodPos();
     for(int i = 0; i < 5; i++){
@@ -189,16 +190,21 @@ void Player::updateBoard(){
     }
     
 }
+
+
+// Checks if the player has consumed regular food.
 bool Player::checkFoodConsumption(){
     objPos* foodPos = mainGameMechsRef->getFoodPos();
     objPos headElement = playerPosList->getHeadElement();
     for(int i = 0; i < 5; i++){
         if(foodPos[i].pos->x == headElement.pos->x && foodPos[i].pos->y == headElement.pos->y){
-            return true;
+            return true;//checks if head pos is the same as food pos
         }
     }
     return false;
 }
+
+//same logic for reg food
 bool Player::checkSpecialFoodConsumption(){
     objPos* foodPos = mainGameMechsRef->getFoodPos();
     objPos headElement = playerPosList->getHeadElement();
@@ -209,6 +215,9 @@ bool Player::checkSpecialFoodConsumption(){
     }
     return false;
 }
+
+
+
 void Player::increasePlayerLength(){
     objPos currentHeadPos = playerPosList->getHeadElement();
     //setting the current position of x and y and the symbol as shorter varaible names. Stores the x,y, and symbol of the head.
@@ -216,7 +225,7 @@ void Player::increasePlayerLength(){
     int currentHeadY = currentHeadPos.pos->y;
     char currentHeadsym = currentHeadPos.symbol;
     switch (myDir){ 
-        case LEFT: //this logic shouldn't be touched. It works perfectly fine, and it implements the wraparound logic.
+        case LEFT: //similar logic to movePlayer(), however when food pos is the same as headPos, tail is not removed
             if (currentHeadx == 1){
                 playerPosList->insertHead(objPos(mainGameMechsRef->getBoardSizeX()-3,currentHeadY,currentHeadsym));
             }
