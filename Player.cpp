@@ -7,11 +7,8 @@ Player::Player(GameMechs* thisGMRef)
     mainGameMechsRef = thisGMRef;
     myDir = STOP;
     playerPosList = new objPosArrayList;//making the new arrayList, and setting the head to the middle.
-    playerPosList->insertHead(objPos(12,7,'*'));
-    playerPosList->insertTail(objPos(12,8,'*'));
-    playerPosList->insertTail(objPos(12,9,'*'));
-    playerPosList->insertTail(objPos(12,10,'*'));
-    playerPosList->insertTail(objPos(11,10,'*'));//creates snake that is 5 units long
+    playerPosList->insertHead(objPos(13,7,'*'));//snake starts off as only 1 unit long
+    
 }
 
 Player::Player(GameMechs* thisGMRef, int y, int x, char symbol){//alternative player constructor, allows explicitly setting the snake's initial position

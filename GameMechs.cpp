@@ -48,13 +48,15 @@ GameMechs::GameMechs()
 GameMechs::GameMechs(int boardX, int boardY)
 {
     input = 0;
-    boardSizeX = 30;
-    boardSizeY = 15;
+    boardSizeX = boardX;
+    boardSizeY = boardY;
     score = 0;
 
 
     exitFlag = false;
     loseFlag = false;
+    food = new objPos[5];// Allocate memory for 5 food items
+
 }
 
 
