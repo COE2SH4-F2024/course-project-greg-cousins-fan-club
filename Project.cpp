@@ -3,7 +3,6 @@
 #include "objPos.h"
 #include "Player.h"
 #include "GameMechs.h"
-#include <windows.h>    
 using namespace std;
 
 #define DELAY_CONST 100000
@@ -17,7 +16,7 @@ void DrawScreen(void);
 void LoopDelay(void);
 void CleanUp(void);
 
-Player* playerptr;//these are the temporary pointers used for testing features
+Player* playerptr;// pointers to access GameMechs and Player classes 
 GameMechs* gamemech;
 
 
@@ -26,7 +25,7 @@ int main(void)
 
     Initialize();
 
-    while(!gamemech->getExitFlagStatus())  //code used to be while(exitFlag == false) before, idk if this is not allowed to be changed, if we have to then I'll revert it back to what is required
+    while(!gamemech->getExitFlagStatus())// will run snake game while getExitFlagStatus is false
     {
         GetInput();
         RunLogic();
@@ -51,12 +50,12 @@ void Initialize(void)
 
 void GetInput(void)
 {
-   if(MacUILib_hasChar()){//changed this to the get_input logic, previous logic was faulty
+    if(MacUILib_hasChar()){
         gamemech->setInput(MacUILib_getChar());
         if(gamemech->getInput() == 27){
-        gamemech->setExitTrue();
-   }
-   }
+            gamemech->setExitTrue();
+        }
+    }// if user hits esc, game ends
 }
 
 void RunLogic(void)
@@ -69,48 +68,43 @@ void RunLogic(void)
     */
     playerptr->clearBoard();
     playerptr->updatePlayerDir();
-    if(playerptr->checkFoodConsumption()){//i understand it now
+    
+    if(playerptr->checkSpecialFoodConsumption()){
         playerptr->increasePlayerLength();
-        gamemech->generateFood(playerptr->getPlayerPos());
+        gamemech->specialIncrement();
+        gamemech->generateFood(playerptr->getPlayerPos());//if player hits special food,score goes up by 5, snake grows by 1, and new food is generated such that its not on the snake
+    }
+    else if(playerptr->checkFoodConsumption()){
+        playerptr->increasePlayerLength();
         gamemech->incrementScore();
+        gamemech->generateFood(playerptr->getPlayerPos());//same logic as above but score only goes up by 1
+        
     }
     else{
         playerptr->movePlayer();
     }
     playerptr->updateBoard();
-
-    //first compare current food coords to current head position
-    //if they are ever equal, that means the food was "eaten"
-    //when food gets eaten, new food needs to be generated such that it is not on the snake body
     
 }
 
 void DrawScreen(void)
 {
     int i,j;
-    MacUILib_clearScreen(); //this is my logic for implementing the board right now. Swap it out when the gamemech implementation is done.
+    MacUILib_clearScreen();
     if(gamemech->getLoseFlagStatus() == true){
         MacUILib_printf("\nGAME OVER!!! You hit yourself!");
-        MacUILib_printf("\nYour final score is: %d, good job!",gamemech->getScore());
-        Sleep(3000); // Delay for 3 seconds
-        gamemech->setExitTrue();
+        MacUILib_printf("\nYour final score is: %d, good job!",gamemech->getScore());//display message after player hits themselves
+        MacUILib_Delay(5000000);//5 second delay
+        gamemech->setExitTrue();//exit game
     }
     else{
-        objPos foodPos = gamemech->getFoodPos();
         for(i=0; i < gamemech->getBoardSizeY(); i++){
             for(j = 0; j < gamemech->getBoardSizeX(); j++){
-                if(j == foodPos.pos->x && i == foodPos.pos->y ){
-                    MacUILib_printf("%c",foodPos.symbol);
-                }
-                else{
-                    MacUILib_printf("%c", gamemech->getBoard()[i][j]);
+                    MacUILib_printf("%c", gamemech->getBoard()[i][j]);//print gameboard
                 }
             }
-            
-        }
-        //MacUILib_printf("Your current direction is: %d", playerptr->getDir());//debugging message, feel free to delete.
         MacUILib_printf("\nCurrent Score: %d",gamemech->getScore());
-        MacUILib_printf("\nPress Esc to quit the game"); // UI message, feel free to change it if u dont like the wording or wanna remodel the UI
+        MacUILib_printf("\nPress Esc to quit the game"); // UI message displayed during game
     }
     
     
@@ -127,6 +121,6 @@ void CleanUp(void)
     MacUILib_clearScreen(); 
 
     delete gamemech;
-    delete playerptr;
+    delete playerptr;//freeing pointers allocated on heap
     MacUILib_uninit();
 }

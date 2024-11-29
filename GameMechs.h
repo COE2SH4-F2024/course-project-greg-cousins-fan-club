@@ -20,16 +20,17 @@ class GameMechs
         int boardSizeX;
         int boardSizeY;
         char** board; // this is the array of the board, newly declared.
-        //hshsPlayer* gamer;
-        objPos food;
+        objPos* food;
 
     public:
         GameMechs();
         GameMechs(int boardX, int boardY);
-        ~GameMechs(); // is this one needed at all? Why or why not?
-        //you should probably add the other two required rule of 4 functions here
+        ~GameMechs(); 
         GameMechs(const GameMechs &g);
         GameMechs& operator=(const GameMechs &g);
+        //respecting rule of min 4
+
+        //exit and lose flag declaration
         bool getExitFlagStatus() const; 
         void setExitTrue();
         bool getLoseFlagStatus() const;
@@ -43,9 +44,11 @@ class GameMechs
         int getBoardSizeY() const;
         char** getBoard() const;
         int getScore() const;
+        //added these for food gen and adding score
         void incrementScore();
+        void specialIncrement();
         void generateFood(objPosArrayList* blockOff);
-        objPos getFoodPos() const;
+        objPos* getFoodPos() const;
         
 };
 
