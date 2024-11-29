@@ -44,7 +44,7 @@ GameMechs::GameMechs()
 }
 
 GameMechs::GameMechs(int boardX, int boardY)
-{
+{//YO SUCHIR IMPLEMENT THIS PLEASE!!! THIS NEEDS TO IMPLEMENTED!!!!!!!
     input = 0;
     boardSizeX = 30;
     boardSizeY = 15;
